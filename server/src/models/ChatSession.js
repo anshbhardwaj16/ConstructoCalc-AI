@@ -1,0 +1,34 @@
+import mongoose from "mongoose";
+
+const messageSchema = new mongoose.Schema(
+  {
+    role: {
+      type: String,
+      enum: ["user", "assistant"],
+      required: true
+    },
+    content: {
+      type: String,
+      required: true
+    }
+  },
+  { timestamps: true }
+);
+
+const chatSessionSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true
+    },
+    title: {
+      type: String,
+      default: "Construction AI Chat"
+    },
+    messages: [messageSchema]
+  },
+  { timestamps: true }
+);
+
+export const ChatSession = mongoose.model("ChatSession", chatSessionSchema);
